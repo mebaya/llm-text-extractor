@@ -29,7 +29,10 @@ RUN python -c "from rapidocr import RapidOCR, EngineType; \
 # PyMuPDF4LLM — fast engine for PDFs with a text layer (no OCR, no ML).
 # Installed in a separate layer so adding/removing it does not invalidate the
 # expensive model-download layers above.
-RUN pip install --no-cache-dir pymupdf4llm>=0.0.17
+# Capped <2: pymupdf4llm 2.0 is an empty placeholder package (the code moved
+# into pymupdf 2.x) and does not install pymupdf. Quoted so the shell doesn't
+# treat >/< as redirects.
+RUN pip install --no-cache-dir "pymupdf4llm>=0.0.17,<2"
 
 COPY app.py .
 
